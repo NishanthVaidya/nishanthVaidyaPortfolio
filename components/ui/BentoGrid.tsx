@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
+import dynamic from 'next/dynamic';
 
 // Also install this npm i --save-dev @types/react-lottie
 import Lottie from "react-lottie";
@@ -98,7 +99,7 @@ export const BentoGridItem = ({
             />
           )}
         </div>
-        <div
+        {/* <div
           className={`absolute right-0 -bottom-5 ${id === 5 && "w-full opacity-80"
             } `}
         >
@@ -110,7 +111,7 @@ export const BentoGridItem = ({
               className="object-cover object-center w-full h-full"
             />
           )}
-        </div>
+        </div> */}
         {id === 6 && (
           // add background animation , remove the p tag
           <BackgroundGradientAnimation>
