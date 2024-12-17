@@ -41,32 +41,9 @@ export const BackgroundGradientAnimation = ({
   const [tgX, setTgX] = useState(0);
   const [tgY, setTgY] = useState(0);
   const [isSafari, setIsSafari] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
     
-    const setBodyStyles = () => {
-      const styles = {
-        "--gradient-background-start": gradientBackgroundStart,
-        "--gradient-background-end": gradientBackgroundEnd,
-        "--first-color": firstColor,
-        "--second-color": secondColor,
-        "--third-color": thirdColor,
-        "--fourth-color": fourthColor,
-        "--fifth-color": fifthColor,
-        "--pointer-color": pointerColor,
-        "--size": size,
-        "--blending-value": blendingValue,
-      } as React.CSSProperties;
-
-      Object.entries(styles).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
-    };
-
-    setBodyStyles();
-
     setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
 
     const moveInterval = setInterval(() => {
@@ -83,20 +60,7 @@ export const BackgroundGradientAnimation = ({
     return () => {
       clearInterval(moveInterval);
     };
-  }, [
-    gradientBackgroundStart,
-    gradientBackgroundEnd,
-    firstColor,
-    secondColor,
-    thirdColor,
-    fourthColor,
-    fifthColor,
-    pointerColor,
-    size,
-    blendingValue,
-    tgX,
-    tgY,
-  ]);
+  }, [tgX, tgY, isSafari]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (interactiveRef.current) {
@@ -106,9 +70,18 @@ export const BackgroundGradientAnimation = ({
     }
   };
 
-  if (!isClient) {
-    return null; // or a loading placeholder
-  }
+  const style = {
+    "--gradient-background-start": gradientBackgroundStart,
+    "--gradient-background-end": gradientBackgroundEnd,
+    "--first-color": firstColor,
+    "--second-color": secondColor,
+    "--third-color": thirdColor,
+    "--fourth-color": fourthColor,
+    "--fifth-color": fifthColor,
+    "--pointer-color": pointerColor,
+    "--size": size,
+    "--blending-value": blendingValue,
+  } as React.CSSProperties;
 
   return (
     <div
@@ -116,6 +89,7 @@ export const BackgroundGradientAnimation = ({
         "w-full h-full absolute overflow-hidden top-0 left-0 bg-[linear-gradient(40deg,var(--gradient-background-start),var(--gradient-background-end))]",
         containerClassName
       )}
+      style={style}
     >
       <svg className="hidden">
         <defs>
