@@ -1,5 +1,4 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
@@ -40,27 +39,41 @@ export const BackgroundGradientAnimation = ({
   const [curY, setCurY] = useState(0);
   const [tgX, setTgX] = useState(0);
   const [tgY, setTgY] = useState(0);
-  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+  //   if (typeof window !== "undefined" && typeof document !== "undefined") {
+  //   document.body.style.setProperty(
+  //     "--gradient-background-start",
+  //     gradientBackgroundStart
+  //   );
+  //   document.body.style.setProperty(
+  //     "--gradient-background-end",
+  //     gradientBackgroundEnd
+  //   );
+  //   document.body.style.setProperty("--first-color", firstColor);
+  //   document.body.style.setProperty("--second-color", secondColor);
+  //   document.body.style.setProperty("--third-color", thirdColor);
+  //   document.body.style.setProperty("--fourth-color", fourthColor);
+  //   document.body.style.setProperty("--fifth-color", fifthColor);
+  //   document.body.style.setProperty("--pointer-color", pointerColor);
+  //   document.body.style.setProperty("--size", size);
+  //   document.body.style.setProperty("--blending-value", blendingValue);
+  // }
+  }, []);
 
   useEffect(() => {
-    
-    setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
-
-    const moveInterval = setInterval(() => {
+    function move() {
       if (!interactiveRef.current) {
         return;
       }
-      setCurX((prevX) => prevX + (tgX - prevX) / 20);
-      setCurY((prevY) => prevY + (tgY - prevY) / 20);
+      setCurX(curX + (tgX - curX) / 20);
+      setCurY(curY + (tgY - curY) / 20);
       interactiveRef.current.style.transform = `translate(${Math.round(
         curX
       )}px, ${Math.round(curY)}px)`;
-    }, 1000 / 60); // 60 FPS
+    }
 
-    return () => {
-      clearInterval(moveInterval);
-    };
-  }, [tgX, tgY, isSafari]);
+    move();
+  }, [tgX, tgY]);
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (interactiveRef.current) {
@@ -70,18 +83,10 @@ export const BackgroundGradientAnimation = ({
     }
   };
 
-  const style = {
-    "--gradient-background-start": gradientBackgroundStart,
-    "--gradient-background-end": gradientBackgroundEnd,
-    "--first-color": firstColor,
-    "--second-color": secondColor,
-    "--third-color": thirdColor,
-    "--fourth-color": fourthColor,
-    "--fifth-color": fifthColor,
-    "--pointer-color": pointerColor,
-    "--size": size,
-    "--blending-value": blendingValue,
-  } as React.CSSProperties;
+  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+    setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+  }, []);
 
   return (
     <div
@@ -89,7 +94,6 @@ export const BackgroundGradientAnimation = ({
         "w-full h-full absolute overflow-hidden top-0 left-0 bg-[linear-gradient(40deg,var(--gradient-background-start),var(--gradient-background-end))]",
         containerClassName
       )}
-      style={style}
     >
       <svg className="hidden">
         <defs>
@@ -116,7 +120,6 @@ export const BackgroundGradientAnimation = ({
           isSafari ? "blur-2xl" : "[filter:url(#blurMe)_blur(40px)]"
         )}
       >
-        {/* Gradient divs remain unchanged */}
         <div
           className={cn(
             `absolute [background:radial-gradient(circle_at_center,_var(--first-color)_0,_var(--first-color)_50%)_no-repeat]`,
@@ -178,4 +181,3 @@ export const BackgroundGradientAnimation = ({
     </div>
   );
 };
-
