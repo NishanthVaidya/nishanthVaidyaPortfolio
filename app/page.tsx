@@ -14,10 +14,10 @@ const Home = () => {
       <div className="max-w-7xl w-full">
         <Hero />
         <Grid />
-        <RecentProjects />
+        {/* <RecentProjects />
         <Experience />
         <Approach />
-        <Footer />
+        <Footer /> */}
       </div>
     </main>
   );
