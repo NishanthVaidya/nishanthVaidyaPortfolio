@@ -1,78 +1,37 @@
 import { withSentryConfig } from '@sentry/nextjs';
+import * as Sentry from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-export default withSentryConfig(withSentryConfig(nextConfig, {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+    Sentry.init({
+        dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+        tracesSampleRate: 1.0, // Adjust for performance monitoring
+        environment: process.env.NODE_ENV,
+    });
+} else {
+    console.warn('Sentry DSN is not defined. Sentry will not be enabled.');
+}
 
-    // Suppresses source map uploading logs during build
-    silent: true,
+const sentryWebpackPluginOptions = {
+    // Sentry Webpack Plugin Options: https://github.com/getsentry/sentry-webpack-plugin#options
     org: "nishanth-cm",
     project: "javascript-nextjs",
-}, {
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+    silent: !process.env.CI, // Only print logs in CI
 
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
+    // Optional Enhancements
+    widenClientFileUpload: true, // More detailed source maps
+    transpileClientSDK: true,    // IE11 compatibility
+    hideSourceMaps: true,        // Hides maps in the bundle
+    disableLogger: true,         // Tree-shake Sentry logs
+    tunnelRoute: "/monitoring",  // Tunnel requests to circumvent ad blockers
+    automaticVercelMonitors: true, // Instrument Vercel Cron Jobs
 
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
-    transpileClientSDK: true,
-
-    // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    // tunnelRoute: "/monitoring",
-
-    // Hides source maps from generated client bundles
-    hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
-
-    // Enables automatic instrumentation of Vercel Cron Monitors.
-    // See the following for more information:
-    // https://docs.sentry.io/product/crons/
-    // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
-}), {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
-
-    org: "nishanth-cm",
-    project: "javascript-nextjs",
-
-    // Only print logs for uploading source maps in CI
-    silent: !process.env.CI,
-
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
-
-    // Automatically annotate React components to show their full name in breadcrumbs and session replay
+    // React Component Annotation
     reactComponentAnnotation: {
         enabled: true,
     },
+};
 
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    tunnelRoute: "/monitoring",
-
-    // Hides source maps from generated client bundles
-    hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
-
-    // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-    // See the following for more information:
-    // https://docs.sentry.io/product/crons/
-    // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
-});
+// Use withSentryConfig only once
+export default withSentryConfig(nextConfig, sentryWebpackPluginOptions);
