@@ -28,7 +28,7 @@ const RecentProjects = () => {
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "lavender" }}
                 >
-                  <img src="/bg.png" alt="bgimg" />
+                 <a href="www.google.com"><img src="/bg.png" alt="bgimg" /></a> 
                 </div>
                 <img
                   src={item.img}
@@ -61,13 +61,14 @@ const RecentProjects = () => {
                         transform: `translateX(-${5 * index + 2}px)`,
                       }}
                     >
-                      <img src={icon} alt="icon5" className="p-2" />
+                    <img src={icon} alt="icon5" className="p-2" />
                     </div>
                   ))}
                 </div>
 
                 <div className="flex justify-center items-center">
                   <p className="flex lg:text-xs md:text-xs text-sm text-purple">
+                    
                     Project can be found on my GitHub
                   </p>
                   <FaLocationArrow className="ms-3" color="#CBACF9" />
