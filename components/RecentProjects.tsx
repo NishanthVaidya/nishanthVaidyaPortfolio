@@ -28,7 +28,7 @@ const RecentProjects = () => {
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "lavender" }}
                 >
-                 <a href="www.google.com"><img src="/bg.png" alt="bgimg" /></a> 
+                  <img src="/bg.png" alt="bgimg" />
                 </div>
                 <img
                   src={item.img}
@@ -69,7 +69,7 @@ const RecentProjects = () => {
                 <div className="flex justify-center items-center">
                   <p className="flex lg:text-xs md:text-xs text-sm text-purple">
                     
-                    Project can be found on my GitHub
+                    Project can be found on my GitHub.
                   </p>
                   <FaLocationArrow className="ms-3" color="#CBACF9" />
                 </div>
