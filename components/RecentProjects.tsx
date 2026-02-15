@@ -12,12 +12,12 @@ const RecentProjects = () => {
         A small selection of{" "}
         <span className="text-purple">recent projects</span>
       </h1>
-      <div className="flex flex-wrap items-center justify-center p-4 gap-16 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-4 mt-10 max-w-7xl mx-auto">
         {projects.map((item) => (
           <div
             key={item.id}
             className={cn(
-              "sm:w-96 w-[80vw] rounded-3xl border border-white/[0.05] p-5 transition duration-300",
+              "w-full rounded-3xl border border-white/[0.05] p-5 transition duration-300",
               "hover:border-white/[0.1] hover:shadow-lg hover:scale-[1.02]",
               "flex flex-col"
             )}
