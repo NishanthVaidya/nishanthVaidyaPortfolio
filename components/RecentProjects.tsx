@@ -17,8 +17,8 @@ const RecentProjects = () => {
           <div
             key={item.id}
             className={cn(
-              "sm:w-96 w-[80vw] rounded-3xl border border-white/[0.1] p-5 transition duration-300",
-              "hover:border-white/[0.2] hover:shadow-lg hover:scale-[1.02]",
+              "sm:w-96 w-[80vw] rounded-3xl border border-white/[0.05] p-5 transition duration-300",
+              "hover:border-white/[0.1] hover:shadow-lg hover:scale-[1.02]",
               "flex flex-col"
             )}
             style={{
@@ -27,7 +27,7 @@ const RecentProjects = () => {
                 "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
             }}
           >
-            {/* Image: full image visible, cleanly scaled */}
+            {/* Image: full image visible, edges fade into card background */}
             <div
               className={cn(
                 "relative w-full aspect-[4/3] min-h-[180px] rounded-2xl overflow-hidden",
@@ -38,6 +38,14 @@ const RecentProjects = () => {
                 src={item.img}
                 alt={item.title}
                 className="w-full h-full object-contain rounded-2xl"
+              />
+              {/* Gradient overlay: image edges fade into card background */}
+              <div
+                className="absolute inset-0 rounded-2xl pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, rgba(4,7,29,0.4) 70%, rgba(4,7,29,0.95) 100%)",
+                }}
               />
             </div>
 
