@@ -17,6 +17,11 @@ const Home = () => {
         <Experience />
         <Footer />
       </div>
+      {/* Fade at bottom so blue blends into body background */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-[25vh] pointer-events-none bg-gradient-to-t from-[hsl(var(--background))] to-transparent"
+        aria-hidden
+      />
     </main>
   );
 };
