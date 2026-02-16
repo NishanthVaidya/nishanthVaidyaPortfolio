@@ -18,7 +18,7 @@ const Hero = () => {
         />
         <Spotlight
           className="h-[80vh] w-[50vw] top-10 left-full"
-          fill="purple"
+          fill="#9a9eb5"
           fillOpacity={0.14}
         />
         <Spotlight

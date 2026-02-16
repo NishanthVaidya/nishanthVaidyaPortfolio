@@ -22,11 +22,10 @@ const Footer = () => {
 
       <div className="flex flex-col items-center">
         <h1 className="heading lg:max-w-[45vw]">
-          Elevate <span className="text-purple">your</span> digital presence to new heights today!
+          I build the parts of software you don&apos;t see — but absolutely depend on.
         </h1>
         <p className="text-white-200 md:mt-10 my-5 text-center">
-          Let&apos;s get in touch to discuss how I can help you
-          achieve your goals.
+          If you&apos;re building something interesting, I&apos;d love to connect.
         </p>
         <a href="mailto:nishanthvaidya1998@gmail.com">
           <MagicButton

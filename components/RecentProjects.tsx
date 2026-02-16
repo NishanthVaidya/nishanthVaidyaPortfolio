@@ -9,8 +9,7 @@ const RecentProjects = () => {
   return (
     <div className="py-20">
       <h1 className="heading">
-        A small selection of{" "}
-        <span className="text-purple">recent projects</span>
+        Projects I&apos;ve <span className="text-purple">Enjoyed Building</span>
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-4 mt-10 max-w-7xl mx-auto">
         {projects.map((item) => (
