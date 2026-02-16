@@ -105,7 +105,7 @@ export const projects = [
 export const workExperience = [
   {
     id: 1,
-    title: "Software Developer Intern · CXTec",
+    title: "Graduate Software Engineer · CXTec",
     desc: "I worked on enterprise data engineering and database reliability, cleaning and restructuring large-scale production data to improve system integrity and reporting accuracy.",
     className: "md:col-span-2",
     thumbnail: "/Experience_1.png",
@@ -113,7 +113,7 @@ export const workExperience = [
   },
   {
     id: 2,
-    title: "Backend Developer Intern · Just Results",
+    title: "Graduate Backend Engineer · Just Results",
     desc: "I built secure backend infrastructure and workflow systems, enforcing business rules, access control, and auditability in a production-grade Spring Boot platform.",
     className: "md:col-span-2",
     thumbnail: "/Experience_2.png",
