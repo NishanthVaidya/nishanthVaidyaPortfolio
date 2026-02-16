@@ -14,7 +14,7 @@ export const gridItems = [
     className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
     imgClassName: "w-full h-full",
     titleClassName: "justify-end",
-    img: "/b1.svg",
+    img: "/bg1.png",
     spareImg: "",
   },
   {
@@ -109,6 +109,7 @@ export const workExperience = [
     desc: "I worked on enterprise data engineering and database reliability, cleaning and restructuring large-scale production data to improve system integrity and reporting accuracy.",
     className: "md:col-span-2",
     thumbnail: "/Experience_1.png",
+    backgroundImage: "/CXtec.jpg",
   },
   {
     id: 2,
@@ -116,6 +117,7 @@ export const workExperience = [
     desc: "I built secure backend infrastructure and workflow systems, enforcing business rules, access control, and auditability in a production-grade Spring Boot platform.",
     className: "md:col-span-2",
     thumbnail: "/Experience_2.png",
+    backgroundImage: "/Just_Results.jpg",
   },
   {
     id: 3,
@@ -123,6 +125,7 @@ export const workExperience = [
     desc: "I developed enterprise automation and decision systems, designing rule engines and REST services that powered complex quote-to-order business processes.",
     className: "md:col-span-2",
     thumbnail: "/Experience_3.png",
+    backgroundImage: "/Deloitte.jpg",
   },
   {
     id: 4,
@@ -130,6 +133,7 @@ export const workExperience = [
     desc: "I built integration platforms and analytics systems that connected enterprise applications, enforced governance, and accelerated engineering productivity.",
     className: "md:col-span-2",
     thumbnail: "/Experience_4.png",
+    backgroundImage: "/Oracle.jpg",
   },
   {
     id: 5,
@@ -137,6 +141,7 @@ export const workExperience = [
     desc: "I engineered high-performance backend systems and real-time data pipelines, scaling APIs and orchestration layers to support large transaction volumes and industrial monitoring use cases.",
     className: "md:col-span-2",
     thumbnail: "/Experience_5.png",
+    backgroundImage: "/Tech_M.jpg",
   },
 ];
 
