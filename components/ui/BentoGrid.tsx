@@ -99,6 +99,13 @@ export const BentoGridItem = ({
             />
           )}
         </div>
+        {/* Slate overlay for first grid item so purple bg aligns with rest of site */}
+        {id === 1 && img && (
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
+            aria-hidden
+          />
+        )}
         {/* <div
           className={`absolute right-0 -bottom-5 ${id === 5 && "w-full opacity-80"
             } `}

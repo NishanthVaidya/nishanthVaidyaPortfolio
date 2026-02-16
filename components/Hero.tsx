@@ -19,24 +19,47 @@ const Hero = () => {
         <Spotlight
           className="h-[80vh] w-[50vw] top-10 left-full"
           fill="purple"
+          fillOpacity={0.14}
         />
-        <Spotlight className="left-80 top-28 h-[80vh] w-[50vw]" fill="blue" />
+        <Spotlight
+          className="left-80 top-28 h-[80vh] w-[50vw]"
+          fill="#e8e0f0"
+        />
       </div>
 
       {/**
-       *  UI: grid
-       *  change bg color to bg-black-100 and reduce grid color from
-       *  0.2 to 0.03
+       *  Hero background: same image as "I focus on delivering..." (bg1.png)
+       *  with overlay for contrast matching work experience section
        */}
       <div
-        className="h-screen w-full dark:bg-black-100 overflow-visible bg-white dark:bg-grid-white/[0.03] bg-grid-black-100/[0.2]
+        className="h-screen w-full overflow-visible bg-transparent dark:bg-grid-white/[0.03] bg-grid-black-100/[0.2]
        absolute top-0 left-0 flex items-center justify-center"
       >
+        {/* Background + overlay with bottom fade — fades out naturally into next section */}
+        <div
+          className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_55%,transparent_100%)]"
+          aria-hidden
+        >
+          {/* Background image — same as grid item "I focus on delivering..." */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: "url(/bg1.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+            aria-hidden
+          />
+          {/* Overlay — same as work experience for consistent text contrast */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95"
+            aria-hidden
+          />
+        </div>
         {/* Radial gradient for the container to give a faded look */}
         <div
-          // chnage the bg to bg-black-100, so it matches the bg color and will blend in
-          className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black-100
-         bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
+          className="absolute pointer-events-none inset-0 flex items-center justify-center bg-transparent [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"
+          aria-hidden
         />
       </div>
 
