@@ -36,7 +36,8 @@
   }
 
   main {
-    overflow: visible !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
   }
 
   .dark {
@@ -75,8 +76,13 @@
     @apply border-border !scroll-smooth;
   }
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
 
   button {

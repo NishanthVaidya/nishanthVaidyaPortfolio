@@ -17,9 +17,9 @@ const Home = () => {
         <Experience />
         <Footer />
       </div>
-      {/* Fade at bottom so blue blends into body background */}
+      {/* Fade to black after footer: gradient so page ends naturally in black */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[25vh] pointer-events-none bg-gradient-to-t from-[hsl(var(--background))] to-transparent"
+        className="absolute bottom-0 left-0 right-0 h-[38vh] pointer-events-none bg-gradient-to-t from-black to-transparent"
         aria-hidden
       />
     </main>
