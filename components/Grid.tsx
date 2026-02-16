@@ -3,6 +3,9 @@ import { gridItems } from "@/data";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 
 const Grid = () => {
+  if (typeof window !== "undefined") {
+    console.log("[Performance] Grid component loaded at", new Date().toISOString());
+  }
   return (
     <section id="about">
       <BentoGrid className="w-full py-20">

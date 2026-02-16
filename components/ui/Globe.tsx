@@ -4,7 +4,6 @@ import { Color, Scene, Fog, PerspectiveCamera, Vector3 } from "three";
 import ThreeGlobe from "three-globe";
 import { useThree, Object3DNode, Canvas, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import countries from "@/data/globe.json";
 declare module "@react-three/fiber" {
   interface ThreeElements {
     threeGlobe: Object3DNode<ThreeGlobe, typeof ThreeGlobe>;
@@ -71,8 +70,25 @@ export function Globe({ globeConfig, data }: WorldProps) {
       }[]
     | null
   >(null);
-
+  const [countriesData, setCountriesData] = useState<any>(null);
   const globeRef = useRef<ThreeGlobe | null>(null);
+
+  // Lazy load globe.json only when component mounts
+  useEffect(() => {
+    const loadGlobeData = async () => {
+      const loadStart = performance.now();
+      console.log("[Performance] Loading globe.json data at", new Date().toISOString());
+      try {
+        const countriesModule = await import("@/data/globe.json");
+        setCountriesData(countriesModule.default || countriesModule);
+        const loadTime = performance.now() - loadStart;
+        console.log("[Performance] globe.json loaded, time:", loadTime.toFixed(2), "ms");
+      } catch (error) {
+        console.error("[Performance] Failed to load globe.json:", error);
+      }
+    };
+    loadGlobeData();
+  }, []);
 
   const defaultProps = {
     pointSize: 1,
@@ -149,9 +165,9 @@ export function Globe({ globeConfig, data }: WorldProps) {
   };
 
   useEffect(() => {
-    if (globeRef.current && globeData) {
+    if (globeRef.current && globeData && countriesData) {
       globeRef.current
-        .hexPolygonsData(countries.features)
+        .hexPolygonsData(countriesData.features)
         .hexPolygonResolution(3)
         .hexPolygonMargin(0.7)
         .showAtmosphere(defaultProps.showAtmosphere)
@@ -162,7 +178,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
         });
       startAnimation();
     }
-  }, [globeData]);
+  }, [globeData, countriesData]);
 
   const startAnimation = () => {
     if (!globeRef.current || !globeData) return;

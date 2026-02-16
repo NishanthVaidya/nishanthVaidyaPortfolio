@@ -1,5 +1,6 @@
 import React from "react";
 import { TbBrandCpp } from "react-icons/tb";
+import Image from "next/image";
 
 import { workExperience } from "@/data";
 import { Button } from "./ui/MovingBorders";
@@ -9,14 +10,33 @@ const Experience = () => {
     (card) => "backgroundImage" in card && card.backgroundImage
   ).length;
   if (typeof window !== "undefined") {
+    const loadStart = performance.now();
+    console.log("[Performance] Experience component loaded at", new Date().toISOString());
     console.log("[Experience] Rendering work experience cards with backgrounds", {
       total: workExperience.length,
       withBackground: cardsWithBg,
     });
+    // Track when component becomes visible
+    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const loadTime = performance.now() - loadStart;
+            console.log("[Performance] Experience section became visible, load time:", loadTime.toFixed(2), "ms");
+            observer.disconnect();
+          }
+        });
+      });
+      // Observe will be set up after render
+      setTimeout(() => {
+        const element = document.getElementById("workExperience");
+        if (element) observer.observe(element);
+      }, 100);
+    }
   }
 
   return (
-    <div className="py-20 w-full">
+    <div id="workExperience" className="py-20 w-full">
       <h1 className="heading">
         My <span className="text-purple">work experience</span>
       </h1>
@@ -38,15 +58,21 @@ const Experience = () => {
             {/* Background image layer — no blur so artwork stays recognizable */}
             {card.backgroundImage && (
               <div
-                className="absolute inset-0 bg-cover bg-center"
+                className="absolute inset-0 overflow-hidden"
                 style={{
-                  backgroundImage: `url(${card.backgroundImage})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
                   borderRadius: "calc(1.75rem * 0.96)",
                 }}
                 aria-hidden
-              />
+              >
+                <Image
+                  src={card.backgroundImage}
+                  alt=""
+                  fill
+                  className="object-cover object-center"
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 100vw, 25vw"
+                />
+              </div>
             )}
             {/* Stronger overlay — maximizes text readability (Option A) */}
             {card.backgroundImage && (
@@ -58,11 +84,16 @@ const Experience = () => {
             )}
             {/* Content on top — stays readable */}
             <div className="relative z-10 flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-              <img
-                src={card.thumbnail}
-                alt={card.thumbnail}
-                className="lg:w-32 md:w-20 w-16"
-              />
+              <div className="relative lg:w-32 md:w-20 w-16 lg:h-32 md:h-20 h-16">
+                <Image
+                  src={card.thumbnail}
+                  alt={card.title}
+                  fill
+                  className="object-contain"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 64px, (max-width: 1024px) 80px, 128px"
+                />
+              </div>
               <div className="lg:ms-5">
                 <h1 className="text-start text-xl md:text-2xl font-bold">
                   {card.title}

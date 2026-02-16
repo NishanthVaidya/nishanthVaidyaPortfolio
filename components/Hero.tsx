@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Image from "next/image";
 import { FaLocationArrow } from "react-icons/fa6";
 
 import MagicButton from "./MagicButton";
@@ -67,6 +68,9 @@ function StarrySky() {
 }
 
 const Hero = () => {
+  if (typeof window !== "undefined") {
+    console.log("[Performance] Hero component loaded at", new Date().toISOString());
+  }
   return (
     <div className="pb-20 pt-36">
       {/**
@@ -103,15 +107,17 @@ const Hero = () => {
           aria-hidden
         >
           {/* Background image — same as grid item "I focus on delivering..." */}
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: "url(/bg1.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-            aria-hidden
-          />
+          <div className="absolute inset-0" aria-hidden>
+            <Image
+              src="/bg1.png"
+              alt=""
+              fill
+              className="object-cover object-center"
+              priority
+              quality={85}
+              sizes="100vw"
+            />
+          </div>
           {/* Overlay — same as work experience for consistent text contrast */}
           <div
             className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95"

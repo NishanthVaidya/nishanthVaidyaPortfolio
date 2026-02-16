@@ -1,13 +1,57 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const World = dynamic(() => import("./Globe").then((m) => m.World), {
   ssr: false,
+  loading: () => <div className="w-full h-full flex items-center justify-center text-white/50">Loading globe...</div>,
 });
 
 const GridGlobe = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const loadStartRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isVisible) {
+            loadStartRef.current = performance.now();
+            console.log("[Performance] GridGlobe intersecting at", new Date().toISOString());
+            setIsVisible(true);
+            
+            setTimeout(() => {
+              if (loadStartRef.current) {
+                const loadTime = performance.now() - loadStartRef.current;
+                console.log("[Performance] GridGlobe loaded, time:", loadTime.toFixed(2), "ms");
+              }
+            }, 0);
+            
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        rootMargin: "100px",
+        threshold: 0.1,
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isVisible]);
   const globeConfig = {
     pointSize: 4,
     globeColor: "#062056",
@@ -397,7 +441,7 @@ const GridGlobe = () => {
   return (
     // remove dark:bg-black bg-white h-screen md:h-auto  w-full flex-row py-20
     // change absolute -left-5 top-36, add w-full h-full md:top-40
-    <div className="flex items-center justify-center absolute -left-5 top-36 md:top-40 w-full h-full">
+    <div ref={containerRef} className="flex items-center justify-center absolute -left-5 top-36 md:top-40 w-full h-full">
       {/* remove h-full md:h-[40rem] */}
       <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-96 px-4">
         {/* remove these text divs */}
@@ -426,7 +470,13 @@ const GridGlobe = () => {
         <div className="absolute w-full bottom-0 inset-x-0 h-40 bg-gradient-to-b pointer-events-none select-none from-transparent dark:to-black to-white z-40" />
         {/* remove -bottom-20 */}
         <div className="absolute w-full h-72 md:h-full z-10">
-          <World data={sampleArcs} globeConfig={globeConfig} />
+          {isVisible ? (
+            <World data={sampleArcs} globeConfig={globeConfig} />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-white/30">
+              <div className="animate-pulse">Loading globe...</div>
+            </div>
+          )}
         </div>
       </div>
     </div>

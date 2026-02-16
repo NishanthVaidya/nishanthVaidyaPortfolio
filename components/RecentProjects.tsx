@@ -1,11 +1,15 @@
 "use client";
 
 import { ExternalLink } from "lucide-react";
+import Image from "next/image";
 
 import { projects } from "@/data";
 import { cn } from "@/lib/utils";
 
 const RecentProjects = () => {
+  if (typeof window !== "undefined") {
+    console.log("[Performance] RecentProjects component loaded at", new Date().toISOString());
+  }
   return (
     <div className="py-20">
       <h1 className="heading">
@@ -33,10 +37,13 @@ const RecentProjects = () => {
                 "bg-black/20 flex items-center justify-center"
               )}
             >
-              <img
+              <Image
                 src={item.img}
                 alt={item.title}
-                className="w-full h-full object-contain rounded-2xl"
+                fill
+                className="object-contain rounded-2xl"
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
               />
               {/* Gradient overlay: image edges fade into card background */}
               <div
@@ -64,12 +71,12 @@ const RecentProjects = () => {
                 {item.iconLists.map((icon, index) => (
                   <div
                     key={index}
-                    className="border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center"
+                    className="border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center relative"
                     style={{
                       transform: `translateX(-${5 * index + 2}px)`,
                     }}
                   >
-                    <img src={icon} alt="" className="p-2" />
+                    <Image src={icon} alt="" width={20} height={20} className="p-2" loading="lazy" />
                   </div>
                 ))}
               </div>
