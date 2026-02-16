@@ -1,8 +1,70 @@
+"use client";
+
+import { useMemo } from "react";
 import { FaLocationArrow } from "react-icons/fa6";
 
 import MagicButton from "./MagicButton";
 import { Spotlight } from "./ui/Spotlight";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
+
+function seededRandom(seed: number) {
+  return () => {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
+}
+
+function StarrySky() {
+  const { staticStars, twinkleStars } = useMemo(() => {
+    const r = seededRandom(12345);
+    const staticStars = Array.from({ length: 80 }, () => [
+      r() * 100,
+      r() * 55,
+      r() > 0.7 ? 2 : 1,
+    ] as [number, number, number]);
+    const r2 = seededRandom(67890);
+    const twinkleStars = Array.from({ length: 25 }, () => [
+      r2() * 100,
+      r2() * 55,
+      r2() > 0.5 ? 2.5 : 1.5,
+    ] as [number, number, number]);
+    return { staticStars, twinkleStars };
+  }, []);
+
+  return (
+    <div
+      className="absolute left-0 right-0 top-0 h-[55vh] overflow-hidden pointer-events-none"
+      aria-hidden
+    >
+      {staticStars.map(([x, y, size], i) => (
+        <div
+          key={`s-${i}`}
+          className="absolute rounded-full bg-white"
+          style={{
+            left: `${x}%`,
+            top: `${y}%`,
+            width: size,
+            height: size,
+            opacity: 0.85,
+          }}
+        />
+      ))}
+      {twinkleStars.map(([x, y, size], i) => (
+        <div
+          key={`t-${i}`}
+          className="absolute rounded-full bg-white animate-twinkle"
+          style={{
+            left: `${x}%`,
+            top: `${y}%`,
+            width: size,
+            height: size,
+            animationDelay: `${i * 0.15}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 const Hero = () => {
   return (
@@ -55,6 +117,8 @@ const Hero = () => {
             className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95"
             aria-hidden
           />
+          {/* Starry sky overlay (static + twinkling stars in upper portion) */}
+          <StarrySky />
         </div>
         {/* Radial gradient for the container to give a faded look */}
         <div
