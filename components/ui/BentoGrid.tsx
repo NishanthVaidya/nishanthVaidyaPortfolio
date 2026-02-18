@@ -116,6 +116,12 @@ export const BentoGridItem = ({
             aria-hidden
           />
         )}
+        {id === 4 && img && (
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
+            aria-hidden
+          />
+        )}
         {id === 6 && img && (
           <div
             className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
