@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "deploy": "vercel --prod",
-    "experience:transparent": "node scripts/make-experience-transparent.mjs"
+    "experience:transparent": "node scripts/make-experience-transparent.mjs",
+    "experience:resize": "node scripts/resize-experience-thumbnails.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^9.105.4",

@@ -97,14 +97,26 @@ export const BentoGridItem = ({
               src={img}
               alt={typeof title === 'string' ? title : 'Grid item image'}
               fill
-              className={cn(imgClassName, "object-cover object-center")}
+              className={cn(imgClassName, "object-cover object-center", id === 1 && "scale-x-[-1] scale-90")}
               loading="lazy"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           )}
         </div>
-        {/* Slate overlay for first grid item so purple bg aligns with rest of site */}
+        {/* Slate overlay for image cards so they match the site's dark theme */}
         {id === 1 && img && (
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
+            aria-hidden
+          />
+        )}
+        {id === 2 && img && (
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
+            aria-hidden
+          />
+        )}
+        {id === 6 && img && (
           <div
             className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/95 pointer-events-none"
             aria-hidden
@@ -123,8 +135,8 @@ export const BentoGridItem = ({
             />
           )}
         </div> */}
-        {id === 6 && (
-          // add background animation , remove the p tag
+        {id === 6 && !img && (
+          // add background animation when no image (so bg4 can show when set)
           <BackgroundGradientAnimation>
             <div className="absolute z-50 inset-0 flex items-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl"></div>
           </BackgroundGradientAnimation>
